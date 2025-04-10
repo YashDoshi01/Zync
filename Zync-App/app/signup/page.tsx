@@ -34,7 +34,7 @@ export default function SignupPage() {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
     }
@@ -43,10 +43,11 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-[#1a1b1e] relative overflow-hidden">
       {/* Centered Background Image with Blur */}
-      <div 
+      <div
         className="absolute inset-0 opacity-50"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1614294148960-9aa740632a87?auto=format&fit=crop&q=80')",
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1614294148960-9aa740632a87?auto=format&fit=crop&q=80')",
           backgroundSize: "80% auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -59,20 +60,35 @@ export default function SignupPage() {
 
       {/* Signup Form */}
       <div className="relative z-10 w-full max-w-md">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-white">
+          Welcome to <span className="text-[#5865F2]">Zync</span>
+        </h1>
         <div className="bg-[#2F3136]/40 p-8 rounded-2xl border border-[#40444B]/30 backdrop-blur-lg">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-black text-white mb-2">Create Account</h2>
+            <h2 className="text-3xl font-black text-white mb-2">
+              Create Account
+            </h2>
             <p className="text-gray-400">Join our gaming community today</p>
           </div>
 
-          <Tabs aria-label="Signup Steps" selectedKey={step} onSelectionChange={(key) => setStep(key as string)}>
+          <Tabs
+            aria-label="Signup Steps"
+            selectedKey={step}
+            onSelectionChange={(key) => setStep(key as string)}
+            color={"primary"}
+          >
             <Tab key="account" title="Account">
               <Card className="bg-transparent border-none shadow-none">
                 <CardBody>
                   <form className="space-y-6">
                     {/* Email */}
                     <div className="space-y-2">
-                      <label htmlFor="email" className="block text-white font-medium">Email</label>
+                      <label
+                        htmlFor="email"
+                        className="block text-white font-medium"
+                      >
+                        Email
+                      </label>
                       <div className="relative">
                         <Input
                           id="email"
@@ -86,7 +102,12 @@ export default function SignupPage() {
 
                     {/* Password */}
                     <div className="space-y-2">
-                      <label htmlFor="password" className="block text-white font-medium">Password</label>
+                      <label
+                        htmlFor="password"
+                        className="block text-white font-medium"
+                      >
+                        Password
+                      </label>
                       <div className="relative">
                         <Input
                           id="password"
@@ -116,10 +137,17 @@ export default function SignupPage() {
                   <form className="space-y-6">
                     {/* Avatar Upload */}
                     <div className="space-y-2">
-                      <label htmlFor="avatar" className="block text-white font-medium">Profile Picture</label>
+                      <label
+                        htmlFor="avatar"
+                        className="block text-white font-medium"
+                      >
+                        Profile Picture
+                      </label>
                       <div
                         className={`relative rounded-xl border-2 border-dashed ${
-                          isDragging ? 'border-[#5865F2] bg-[#5865F2]/10' : 'border-[#40444B]'
+                          isDragging
+                            ? "border-[#5865F2] bg-[#5865F2]/10"
+                            : "border-[#40444B]"
                         } p-4 transition-colors`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
@@ -148,7 +176,7 @@ export default function SignupPage() {
                           )}
                           <div className="text-center">
                             <p className="text-white font-medium">
-                              {previewUrl ? 'Change picture' : 'Upload picture'}
+                              {previewUrl ? "Change picture" : "Upload picture"}
                             </p>
                             <p className="text-gray-400 text-sm mt-1">
                               Drag & drop or click to upload
@@ -160,7 +188,12 @@ export default function SignupPage() {
 
                     {/* Username */}
                     <div className="space-y-2">
-                      <label htmlFor="username" className="block text-white font-medium">Username</label>
+                      <label
+                        htmlFor="username"
+                        className="block text-white font-medium"
+                      >
+                        Username
+                      </label>
                       <div className="relative">
                         <Input
                           id="username"
@@ -174,7 +207,12 @@ export default function SignupPage() {
 
                     {/* Date of Birth */}
                     <div className="space-y-2">
-                      <label htmlFor="dob" className="block text-white font-medium">Date of Birth</label>
+                      <label
+                        htmlFor="dob"
+                        className="block text-white font-medium"
+                      >
+                        Date of Birth
+                      </label>
                       <div className="relative">
                         <Input
                           id="dob"
@@ -186,9 +224,7 @@ export default function SignupPage() {
                     </div>
 
                     {/* Submit Button */}
-                    <Button
-                      className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-6 text-lg rounded-xl flex items-center justify-center gap-2 transition-colors"
-                    >
+                    <Button className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-6 text-lg rounded-xl flex items-center justify-center gap-2 transition-colors">
                       Create Account
                     </Button>
                   </form>
@@ -209,9 +245,13 @@ export default function SignupPage() {
         {/* Terms */}
         <p className="text-center text-gray-400 text-xs mt-4">
           By signing up, you agree to our{" "}
-          <a href="#" className="text-[#5865F2] hover:underline">Terms of Service</a>
-          {" "}and{" "}
-          <a href="#" className="text-[#5865F2] hover:underline">Privacy Policy</a>
+          <a href="/" className="text-[#5865F2] hover:underline">
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="/" className="text-[#5865F2] hover:underline">
+            Privacy Policy
+          </a>
         </p>
       </div>
     </div>

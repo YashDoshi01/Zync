@@ -26,10 +26,15 @@ export default function LoginPage() {
 
       {/* Login Form */}
       <div className="relative z-10 w-full max-w-md">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-white">
+          Welcome back to <span className="text-[#5865F2]">Zync</span>
+        </h1>
+
         <div className="bg-[#2F3136]/40 p-8 rounded-2xl border border-[#40444B]/30 backdrop-blur-lg">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-black text-white mb-2">Welcome Back</h2>
-            <p className="text-gray-400">Login to continue</p>
+            <h2 className="text-2xl font-black text-gray-500  mb-2">
+              Login to continue
+            </h2>
           </div>
 
           <Card className="bg-transparent border-none shadow-none">
@@ -70,7 +75,7 @@ export default function LoginPage() {
 
           {/* Signup Link */}
           <p className="text-center text-gray-400 text-sm mt-6">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a href="/signup" className="text-[#5865F2] hover:underline">
               Sign up
             </a>
@@ -79,11 +84,11 @@ export default function LoginPage() {
           {/* Terms */}
           <p className="text-center text-gray-400 text-xs mt-4">
             By logging in, you agree to our{" "}
-            <a href="#" className="text-[#5865F2] hover:underline">
+            <a href="/" className="text-[#5865F2] hover:underline">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="text-[#5865F2] hover:underline">
+            <a href="/" className="text-[#5865F2] hover:underline">
               Privacy Policy
             </a>
           </p>

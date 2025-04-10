@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import ClientLayout from "@/components/client-layout";
 
+
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function RootLayout({
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-          spaceGrotesk.className
+          spaceGrotesk.className,
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>

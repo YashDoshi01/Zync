@@ -17,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/YashDoshi01/Zync/issues"
   },
-  "homepage": "https://github.com/YashDoshi01/Zync#readme"
+  "homepage": "https://github.com/YashDoshi01/Zync#readme",
+  "dependencies": {
+    "@headlessui/react": "^2.2.1",
+    "@heroicons/react": "^2.2.0",
+    "@heroui/system": "^2.4.13",
+    "@heroui/tabs": "^2.2.14",
+    "@heroui/theme": "^2.4.13",
+    "framer-motion": "^12.6.3",
+    "tailwindcss": "^4.1.3"
+  }
 }

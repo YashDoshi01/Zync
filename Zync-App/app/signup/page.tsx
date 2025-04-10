@@ -6,16 +6,27 @@ import { Tabs, Tab } from "@heroui/react";
 import { Card, CardBody } from "@heroui/card";
 import { Lock, User, Mail, Cake, Upload } from "lucide-react";
 import { useState } from "react";
+import ErrorMessage from "@/components/Errormessage";
 
 export default function SignupPage() {
   const [step, setStep] = useState("account");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [formData, setFormData] = useState({
+  email: "",
+  password: "",
+  username: "",
+  dob: "",
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
+      const url = URL.createObjectURL(file);  
       setPreviewUrl(url);
     }
   };
@@ -39,7 +50,42 @@ export default function SignupPage() {
       setPreviewUrl(url);
     }
   };
+  const handleSubmit = () => {
+    const newErrors: Record<string, string> = {};
+    const { email, password, username, dob } = formData;
 
+    // Check required fields
+    if (!email) newErrors.email = "Email is required.";
+    if (!password) newErrors.password = "Password is required.";
+    if (!username) newErrors.username = "Username is required.";
+    if (!dob) newErrors.dob = "Date of birth is required.";
+
+    // Specific validations
+    if (username && (username.length < 8 || username.length > 20)) {
+      newErrors.username = "Username must be between 8 and 20 characters.";
+    }
+
+    if (password && password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    // Age check
+    if (dob) {
+      const birthDate = new Date(dob);
+      const age = new Date().getFullYear() - birthDate.getFullYear();
+      if (age < 15) newErrors.dob = "You must be at least 15 years old.";
+    }
+
+    // TODO: Uniqueness checks should be done server-side
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      console.log("Form data:", formData);
+      // Call backend signup here
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-[#1a1b1e] relative overflow-hidden">
       {/* Centered Background Image with Blur */}
@@ -94,8 +140,13 @@ export default function SignupPage() {
                           id="email"
                           type="email"
                           placeholder="you@example.com"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                            }
                           className="border-[#40444B] text-white pl-10 focus:ring-[#5865F2] focus:border-[#5865F2]"
                         />
+                        {errors.email && <ErrorMessage message={errors.email} />}
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                       </div>
                     </div>
@@ -113,8 +164,13 @@ export default function SignupPage() {
                           id="password"
                           type="password"
                           placeholder="••••••••"
+                          value={formData.password}
+                          onChange={(e) =>
+                            setFormData({ ...formData, password: e.target.value })
+                          }
                           className="border-[#40444B] text-white pl-10 focus:ring-[#5865F2] focus:border-[#5865F2]"
                         />
+                        {errors.password && <ErrorMessage message={errors.password} />}
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                       </div>
                     </div>
@@ -199,8 +255,13 @@ export default function SignupPage() {
                           id="username"
                           type="text"
                           placeholder="Choose a username"
+                          value={formData.username}
+                          onChange={(e) =>
+                            setFormData({ ...formData, username: e.target.value })
+                          }
                           className=" border-[#40444B] text-white pl-10 focus:ring-[#5865F2] focus:border-[#5865F2]"
                         />
+                        {errors.username && <ErrorMessage message={errors.username} />}
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                       </div>
                     </div>
@@ -217,14 +278,19 @@ export default function SignupPage() {
                         <Input
                           id="dob"
                           type="date"
+                          value={formData.dob}
+                          onChange={(e) =>
+                            setFormData({ ...formData, dob: e.target.value })
+                          }
                           className="border-[#40444B] text-white pl-10 focus:ring-[#5865F2] focus:border-[#5865F2]"
                         />
                         <Cake className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        {errors.dob && <ErrorMessage message={errors.dob} />}
                       </div>
                     </div>
 
                     {/* Submit Button */}
-                    <Button className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-6 text-lg rounded-xl flex items-center justify-center gap-2 transition-colors">
+                    <Button className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-6 text-lg rounded-xl flex items-center justify-center gap-2 transition-colors" onClick={handleSubmit}>
                       Create Account
                     </Button>
                   </form>

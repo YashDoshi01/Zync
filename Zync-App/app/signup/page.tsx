@@ -7,6 +7,10 @@ import { Card, CardBody } from "@heroui/card";
 import { Lock, User, Mail, Cake, Upload } from "lucide-react";
 import { useState } from "react";
 import ErrorMessage from "@/components/Errormessage";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function SignupPage() {
   const [step, setStep] = useState("account");
@@ -21,8 +25,13 @@ export default function SignupPage() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-
+  const token = useSelector((state: RootState) => state.auth.token);
+  const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      router.push("/chats"); // or your dashboard page
+    }
+  }, [token, router]);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {

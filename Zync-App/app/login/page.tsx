@@ -9,6 +9,8 @@ import ErrorMessage from "@/components/Errormessage";
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '@/store/slices/authSlice';
 import type { RootState, AppDispatch } from '@/store/index';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -18,6 +20,13 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const dispatch = useDispatch<AppDispatch>();
   const { user, token, error, loading } = useSelector((state: RootState) => state.auth);
+  const storedtoken = useSelector((state: RootState) => state.auth.token);
+  const router = useRouter();
+  useEffect(() => {
+    if (storedtoken) {
+      router.push("/chats"); // or your dashboard page
+    }
+  }, [token, router]);
   const handleSubmit = () => {
     const newErrors: Record<string, string> = {};
     const { email, password } = formData;   

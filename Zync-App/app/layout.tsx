@@ -7,7 +7,7 @@ import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import ClientLayout from "@/components/client-layout";
 import { Analytics } from "@vercel/analytics/react"
-
+import ReactProvider from "@/components/ReactProvider";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
 
@@ -46,7 +46,11 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <ClientLayout>{children}</ClientLayout>
+          <ReactProvider>
+          <ClientLayout>
+          {children}
+          </ClientLayout>
+          </ReactProvider>
         </Providers>
       </body>
     </html>

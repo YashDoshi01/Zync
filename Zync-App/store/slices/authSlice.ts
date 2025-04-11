@@ -6,7 +6,13 @@ interface AuthState {
   loading: boolean;
   error: string | null;
 }
-
+interface RegisterPayload {
+  email: string;
+  password: string;
+  username: string;
+  dob: string;
+  avatar?: File | null;
+}
 const initialState: AuthState = {
   user: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "null") : null,
   token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
@@ -24,6 +30,31 @@ export const loginUser = createAsyncThunk(
       return res.data; // { user, token }
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response.data.message || 'Login failed');
+    }
+  }
+);
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  async (payload: RegisterPayload, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append('email', payload.email);
+      formData.append('password', payload.password);
+      formData.append('username', payload.username);
+      formData.append('dob', payload.dob);
+      if (payload.avatar) {
+        formData.append('avatar', payload.avatar);
+      }
+
+      const res = await api.post('/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return res.data; // optional, based on backend response
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message || 'Registration failed');
     }
   }
 );
@@ -65,7 +96,24 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+    .addCase(registerUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(registerUser.fulfilled, (state, action) => {
+      state.loading = false;
+      // You can optionally set user/token here if your backend returns them
+      // Example:
+      // state.user = action.payload.user;
+      // state.token = action.payload.token;
+      // localStorage.setItem("user", JSON.stringify(action.payload.user));
+      // localStorage.setItem("token", action.payload.token);
+    })
+    .addCase(registerUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 

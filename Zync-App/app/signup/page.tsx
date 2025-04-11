@@ -11,7 +11,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { registerUser } from "@/store/slices/authSlice";
 export default function SignupPage() {
   const [step, setStep] = useState("account");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -27,6 +29,7 @@ export default function SignupPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const token = useSelector((state: RootState) => state.auth.token);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (token) {
       router.push("/chats"); // or your dashboard page
@@ -59,40 +62,39 @@ export default function SignupPage() {
       setPreviewUrl(url);
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors: Record<string, string> = {};
     const { email, password, username, dob } = formData;
-
-    // Check required fields
+  
     if (!email) newErrors.email = "Email is required.";
     if (!password) newErrors.password = "Password is required.";
     if (!username) newErrors.username = "Username is required.";
     if (!dob) newErrors.dob = "Date of birth is required.";
-
-    // Specific validations
+  
     if (username && (username.length < 8 || username.length > 20)) {
       newErrors.username = "Username must be between 8 and 20 characters.";
     }
-
+  
     if (password && password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
     }
-
-    // Age check
-    if (dob) {
-      const birthDate = new Date(dob);
-      const age = new Date().getFullYear() - birthDate.getFullYear();
-      if (age < 15) newErrors.dob = "You must be at least 15 years old.";
-    }
-
-    // TODO: Uniqueness checks should be done server-side
-
+  
+    const birthDate = new Date(dob);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+    if (age < 15) newErrors.dob = "You must be at least 15 years old.";
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-    } else {
-      setErrors({});
-      console.log("Form data:", formData);
-      // Call backend signup here
+      return;
+    }
+  
+    const fileInput = document.getElementById("avatar") as HTMLInputElement;
+    const avatarFile = fileInput?.files?.[0] ?? null;
+  
+    const resultAction = await dispatch(registerUser({ ...formData, avatar: avatarFile }));
+    if (registerUser.fulfilled.match(resultAction)) {
+      
+      router.push('/login'); // Redirect to login
     }
   };
   return (

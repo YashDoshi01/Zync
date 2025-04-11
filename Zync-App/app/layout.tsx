@@ -6,6 +6,7 @@ import { Space_Grotesk } from "next/font/google";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import ClientLayout from "@/components/client-layout";
+import { Analytics } from "@vercel/analytics/react"
 
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head />
+      <Analytics />
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",

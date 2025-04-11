@@ -41,7 +41,7 @@ export default function HomePage() {
       </div>
 
       {/* Features Section */}
-      <div className="mt-32 w-full px-6 max-w-7xl mx-auto grid place-items-center">
+      <div className="mt-32 w-full px-6 pb-20 max-w-7xl mx-auto grid place-items-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <FeatureCard
             className="p-6 sm:p-8 text-lg shadow-2xl backdrop-blur-md bg-[#1f1f1f]/80 border border-white/10"

@@ -14,6 +14,8 @@ interface FriendState {
   pendingRequests: Friend[];
   loading: boolean;
   error: string | null;
+  user: any;
+  token: string | null;
 }
 
 const initialState: FriendState = {
@@ -21,6 +23,9 @@ const initialState: FriendState = {
   pendingRequests: [],
   loading: false,
   error: null,
+  user: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "null") : null,
+token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
+
 };
 const token = localStorage.getItem('token');
 // ✅ Send Friend Request

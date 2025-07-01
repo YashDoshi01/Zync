@@ -14,8 +14,30 @@ model User {
   password  String
   dob       DateTime? 
   avatarUrl String?   
+  sentRequests     Friendship[] @relation("UserSentRequests")
+  receivedRequests Friendship[] @relation("UserReceivedRequests")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relations will go here later: servers, friends, etc.
+}
+model Friendship {
+  id         String   @id @default(cuid())
+
+  user       User     @relation("UserSentRequests", fields: [userId], references: [id])
+  userId     String
+
+  friend     User     @relation("UserReceivedRequests", fields: [friendId], references: [id])
+  friendId   String
+
+  status     FriendshipStatus @default(PENDING)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([userId, friendId])
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
 }
